@@ -1,6 +1,7 @@
 from maple_app.data import *
 from maple_app import app
 from flask import render_template, request, flash
+from config import *
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
