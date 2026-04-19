@@ -3,6 +3,26 @@
 import requests, sys, bs4, json
 import pandas as pd
 
+def api_key_check(api_key):
+    result_code = 200
+    result_message = "Success"
+    result_fail_reason = ""
+    
+    if "test_" in api_key:
+        result_code = 400
+        result_message = "개발/테스트용 API키 입니다."
+        result_fail_reason = "개발/테스트용 API키 사용"
+        return_data = {
+            "result_code": result_code,
+            "result_message": result_message,
+            "result_fail_reason": result_fail_reason
+        }
+        
+        json_result = json.dumps(return_data, ensure_ascii=False)
+        print(json_result)
+        return(json_result)
+    
+
 target_url = 'https://open.api.nexon.com/maplestory/v1/character/list'
 api_key = open("api_key.txt", "r").read().strip()
 api_key = api_key.replace("LIVE_KEY=", "")  # Ensure the API key is correctly formatted
