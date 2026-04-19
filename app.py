@@ -1,7 +1,7 @@
 from maple_app.data import *
 from maple_app import app
 from flask import render_template, request, flash
-from config import *
+from config import Config
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
@@ -25,6 +25,7 @@ def login():
         return render_template('login.html')
 
 if __name__ == '__main__':
+    app.config.from_object(Config)
     app.run(debug=True)
     
     
