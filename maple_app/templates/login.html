@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+  <title>내 캐릭터 찾기</title>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-box">
+      <h1>내 캐릭터 찾기</h1>
+      <p class="subtitle">오픈 API 키를 입력해주세요</p>
+      
+      <form method="POST" class="login-form">
+        <div class="form-group">
+          <label for="api_key">API 키</label>
+          <input 
+            type="text" 
+            id="api_key" 
+            name="api_key" 
+            class="api-input"
+            placeholder="ex) live_**********" 
+            required
+          >
+        </div>
+        
+        <div class="button-group">
+          <button type="submit" class="btn btn-login">로그인</button>
+          <button type="button" class="btn btn-find-api" onclick="window.open('https://openapi.nexon.com/', '_blank')">
+            API 찾기
+          </button>
+        </div>
+      </form>
+      
+      <p class="help-text">Nexon Open API에서 API 키를 발급받으세요</p>
+    </div>
+  </div>
+</body>
+</html>
