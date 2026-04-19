@@ -9,9 +9,6 @@ def login():
         # Handle login logic here      
         api_key = request.form.get('api_key')
         result = json.loads(api_key_check(api_key))
-        print("###############################")
-        #print(result)
-        print(type(result))
         if result["result_code"] == 200:
             # 로그인 성공 시 캐릭터 정보 페이지로 리디렉션
             #return render_template('character_info.html', character_data=result["result_data"])
