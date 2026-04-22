@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-  <title>내 계정/캐릭터 찾기</title>
+  <title>내 계정 - Find My Maple</title>
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
       <script>
@@ -17,37 +16,201 @@
     {% endif %}
   {% endwith %}
 </head>
-<script src="https://code.jquery.com/jquery-latest.min.js"></script>
-<script>
-  const api_key = '{{api_key}}'
-</script>
 <body>
-  <div class="login-container">
-    <div class="login-box">
-      <img src="https://style-finder.nexon.com/anims/anim-1-9.png" alt="MapleStory" class="login-image">
+  <div class="container">
+    <div class="header">
+      <img src="https://style-finder.nexon.com/anims/anim-1-9.png" alt="MapleStory" class="logo">
       <h1>Find My Maple</h1>
-      <p class="subtitle">총 <b></b>개의 계정을 찾았습니다.</p>
-      <div class="form-group">
-        <label for="api_key">API 키</label>
-        <input 
-          type="text" 
-          id="api_key" 
-          name="api_key" 
-          class="api-input"
-          placeholder="ex) live_**********" 
-          required
-        >
+      <p class="subtitle">총 <strong>{{ account_count }}</strong>개의 계정을 찾았습니다</p>
+    </div>
+
+    <div class="content">
+      <div class="account-list-container">
+        <table class="account-table">
+          <thead>
+            <tr>
+              <th>계정 ID</th>
+              <th>첫 번째 캐릭터</th>
+              <th>세부 정보</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for account, first_char in account_pairs %}
+            <tr class="account-row" onclick="goToCharacters('{{ account.account_id }}')">
+              <td class="account-id">{{ account.account_id }}</td>
+              <td class="first-character">{{ first_char }}</td>
+              <td class="action">
+                <a href="{{ url_for('home.characters', account_id=account.account_id) }}" class="btn-detail">
+                  캐릭터 보기 →
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
-      
-      <div class="button-group">
-        <button type="submit" class="btn btn-login">로그인</button>
-        <button type="button" class="btn btn-find-api" onclick="window.open('https://openapi.nexon.com/', '_blank')">
-          API 찾기
-        </button>
+
+      {% if account_count == 0 %}
+      <div class="no-data">
+        <p>조회된 계정이 없습니다.</p>
       </div>
-      
-      <p class="help-text"><a href="https://openapi.nexon.com/" target="_blank" style="color: #667eea; text-decoration: underline;">Nexon Open API</a>에서 API 키를 발급받으세요</p>
+      {% endif %}
+    </div>
+
+    <div class="footer">
+      <a href="{{ url_for('home.login') }}" class="btn-back">← 돌아가기</a>
     </div>
   </div>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .header .logo {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 15px;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .header .subtitle {
+      font-size: 16px;
+      opacity: 0.9;
+    }
+
+    .content {
+      padding: 40px 20px;
+    }
+
+    .account-list-container {
+      margin-bottom: 30px;
+    }
+
+    .account-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+    }
+
+    .account-table thead {
+      background: #f5f5f5;
+      border-bottom: 2px solid #667eea;
+    }
+
+    .account-table th {
+      padding: 15px;
+      text-align: left;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .account-table tbody tr {
+      border-bottom: 1px solid #eee;
+      transition: background 0.3s ease;
+      cursor: pointer;
+    }
+
+    .account-table tbody tr:hover {
+      background: #f9f9f9;
+    }
+
+    .account-table td {
+      padding: 15px;
+      color: #666;
+    }
+
+    .account-id {
+      font-weight: 500;
+      color: #333;
+      font-family: 'Courier New', monospace;
+    }
+
+    .first-character {
+      color: #667eea;
+      font-weight: 500;
+    }
+
+    .action {
+      text-align: center;
+    }
+
+    .btn-detail {
+      display: inline-block;
+      padding: 8px 16px;
+      background: #667eea;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-detail:hover {
+      background: #764ba2;
+      transform: translateX(2px);
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 40px;
+      color: #999;
+    }
+
+    .footer {
+      padding: 20px;
+      border-top: 1px solid #eee;
+      display: flex;
+      justify-content: center;
+    }
+
+    .btn-back {
+      padding: 10px 20px;
+      background: #f0f0f0;
+      color: #333;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-back:hover {
+      background: #e0e0e0;
+    }
+  </style>
+
+  <script>
+    function goToCharacters(accountId) {
+      window.location.href = "{{ url_for('home.characters', account_id='') }}" + accountId;
+    }
+  </script>
 </body>
 </html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>캐릭터 목록 - Find My Maple</title>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          {% for category, message in messages %}
+            alert("{{ message }}");
+          {% endfor %}
+        });
+      </script>
+    {% endif %}
+  {% endwith %}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .header .logo {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 15px;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .header .subtitle {
+      font-size: 16px;
+      opacity: 0.9;
+    }
+
+    .content {
+      padding: 40px 20px;
+    }
+
+    .character-list-container {
+      margin-bottom: 30px;
+    }
+
+    .character-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .character-card {
+      background: #f9f9f9;
+      border: 2px solid #eee;
+      border-radius: 10px;
+      padding: 20px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .character-card:hover {
+      border-color: #667eea;
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+      transform: translateY(-5px);
+    }
+
+    .character-name {
+      font-size: 18px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .character-info {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 8px;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .label {
+      font-weight: 500;
+      color: #333;
+    }
+
+    .value {
+      color: #667eea;
+      font-weight: 500;
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 40px;
+      color: #999;
+    }
+
+    .footer {
+      padding: 20px;
+      border-top: 1px solid #eee;
+      display: flex;
+      justify-content: center;
+    }
+
+    .btn-back {
+      padding: 10px 20px;
+      background: #f0f0f0;
+      color: #333;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-back:hover {
+      background: #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="https://style-finder.nexon.com/anims/anim-1-9.png" alt="MapleStory" class="logo">
+      <h1>Find My Maple</h1>
+      <p class="subtitle">계정 ID: <strong>{{ account_id }}</strong></p>
+      <p class="subtitle">총 <strong>{{ character_count }}</strong>개의 캐릭터를 찾았습니다</p>
+    </div>
+
+    <div class="content">
+      <div class="character-list-container">
+        {% if character_count > 0 %}
+        <div class="character-grid">
+          {% for character in character_list %}
+          <div class="character-card">
+            <div class="character-name">{{ character.character_name }}</div>
+            <div class="character-info">
+              <div class="info-row">
+                <span class="label">직업:</span>
+                <span class="value">{{ character.character_class }}</span>
+              </div>
+              <div class="info-row">
+                <span class="label">레벨:</span>
+                <span class="value">{{ character.character_level }}</span>
+              </div>
+              <div class="info-row">
+                <span class="label">경험치:</span>
+                <span class="value">{{ character.character_exp }}</span>
+              </div>
+              <div class="info-row">
+                <span class="label">월드:</span>
+                <span class="value">{{ character.world_name }}</span>
+              </div>
+              <div class="info-row">
+                <span class="label">생성일:</span>
+                <span class="value">{{ character.date_created }}</span>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="no-data">
+          <p>조회된 캐릭터가 없습니다.</p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="footer">
+      <a href="{{ url_for('home.account_list') }}" class="btn-back">← 계정 목록으로 돌아가기</a>
+    </div>
+  </div>
+</body>
+</html>
