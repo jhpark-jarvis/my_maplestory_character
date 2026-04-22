@@ -18,39 +18,36 @@
   {% endwith %}
 </head>
 <script>
-  const jsonString = "{{ account_data }}"
-  console.log(jsonString)
-  const jsonArray = JSON.parse(jsonString);
-  console.log(jsonArray)
+
+
+  const account_list = '{{account_list}}'
 </script>
 <body>
-  {{ account_count }}
   <div class="login-container">
     <div class="login-box">
       <img src="https://style-finder.nexon.com/anims/anim-1-9.png" alt="MapleStory" class="login-image">
       <h1>Find My Maple</h1>
-      <p class="subtitle">오픈 API 키를 입력해주세요</p>
+      <p class="subtitle">총 <b>{{account_count}}</b>개의 계정을 찾았습니다.</p>
+      <div class="form-group">
+        <p>{{account_list}}</p>
+        <p>{{account_first_character}}</p>
+        <label for="api_key">API 키</label>
+        <input 
+          type="text" 
+          id="api_key" 
+          name="api_key" 
+          class="api-input"
+          placeholder="ex) live_**********" 
+          required
+        >
+      </div>
       
-      <form method="POST" class="login-form">
-        <div class="form-group">
-          <label for="api_key">API 키</label>
-          <input 
-            type="text" 
-            id="api_key" 
-            name="api_key" 
-            class="api-input"
-            placeholder="ex) live_**********" 
-            required
-          >
-        </div>
-        
-        <div class="button-group">
-          <button type="submit" class="btn btn-login">로그인</button>
-          <button type="button" class="btn btn-find-api" onclick="window.open('https://openapi.nexon.com/', '_blank')">
-            API 찾기
-          </button>
-        </div>
-      </form>
+      <div class="button-group">
+        <button type="submit" class="btn btn-login">로그인</button>
+        <button type="button" class="btn btn-find-api" onclick="window.open('https://openapi.nexon.com/', '_blank')">
+          API 찾기
+        </button>
+      </div>
       
       <p class="help-text"><a href="https://openapi.nexon.com/" target="_blank" style="color: #667eea; text-decoration: underline;">Nexon Open API</a>에서 API 키를 발급받으세요</p>
     </div>
