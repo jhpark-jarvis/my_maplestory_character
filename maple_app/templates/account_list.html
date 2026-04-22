@@ -17,14 +17,21 @@
     {% endif %}
   {% endwith %}
 </head>
+<script>
+  const jsonString = "{{ account_data }}"
+  console.log(jsonString)
+  const jsonArray = JSON.parse(jsonString);
+  console.log(jsonArray)
+</script>
 <body>
+  {{ account_count }}
   <div class="login-container">
     <div class="login-box">
       <img src="https://style-finder.nexon.com/anims/anim-1-9.png" alt="MapleStory" class="login-image">
       <h1>Find My Maple</h1>
       <p class="subtitle">오픈 API 키를 입력해주세요</p>
       
-      <form method="POST" class="login-form" action="{{ url_for('account_list') }}">
+      <form method="POST" class="login-form">
         <div class="form-group">
           <label for="api_key">API 키</label>
           <input 
