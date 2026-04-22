@@ -109,6 +109,7 @@ def get_character_list(account_id, api_key):
         }
     """
     target_url = f'https://open.api.nexon.com/maplestory/v1/character/list'
+    target_id = account_id
     
     try:
         res = requests.get(
@@ -124,11 +125,17 @@ def get_character_list(account_id, api_key):
         res_text = bs4.BeautifulSoup(res.text, "html.parser")
         res_json = json.loads(res_text.text)
         
+
+        
         if res.status_code == 200:
             # character_list만 추출
-            character_list = res_json.get('character_list', [])
+            characters = next(
+                (acc["character_list"] for acc in res_json["account_list"] if acc["account_id"] == target_id),
+                []
+            )
+
             return _create_success_response({
-                'character_list': character_list
+                'character_list': characters
             })
         else:
             return _create_error_response(

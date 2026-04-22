@@ -13,7 +13,7 @@ from maple_app.services.nexon_api_service import (
 )
 
 # 사용자가 제공한 API 키
-TEST_API_KEY = open('test_api_key.txt', 'r').read().strip()  # test_api_key.txt 파일에서 API 키 읽기
+TEST_API_KEY = open('API_KEY.txt', 'r').read().strip()  # test_api_key.txt 파일에서 API 키 읽기
 TEST_API_KEY = TEST_API_KEY.replace('LIVE_KEY=', '')  # 혹시 모를 따옴표 제거
 
 print("\n" + "="*80)
@@ -24,6 +24,7 @@ print("="*80 + "\n")
 print("[1] API 키 검증 테스트")
 print("-" * 80)
 result = api_key_check(TEST_API_KEY)
+account_data = None
 
 if result['result_code'] == 200:
     print("API 키 검증 성공")

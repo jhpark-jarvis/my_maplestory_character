@@ -117,9 +117,10 @@ def characters(account_id):
             'characters.html',
             account_id=account_id,
             character_list=character_list,
-            character_count=len(character_list)
+            character_count=len(character_list),
+            api_key=api_key  # 템플릿에서 돌아가기 링크 생성할 때 사용
         )
     else:
         error_msg = f"{result['result_message']}: {result['result_fail_reason']}"
         flash(error_msg, 'error')
-        return render_template('account_list.html')
+        return render_template('login.html')
