@@ -42,6 +42,7 @@ def _handle_account_list_get():
     if result['result_code'] == 200:
         # API 키를 세션에 저장 (계정 선택 후 캐릭터 조회할 때 사용)
         session['api_key'] = api_key
+        session.modified = True  # 세션을 명시적으로 저장하도록 설정
         
         account_data = result['result_data']
         accounts = get_account_list(account_data)
@@ -55,7 +56,8 @@ def _handle_account_list_get():
             accounts=accounts,
             first_characters=first_characters,
             account_pairs=account_pairs,
-            account_count=len(accounts)
+            account_count=len(accounts),
+            api_key=api_key  # 돌아가기 링크에서 api_key 전달
         )
     else:
         error_msg = f"{result['result_message']}: {result['result_fail_reason']}"
@@ -77,6 +79,7 @@ def _handle_account_list_post():
     if result['result_code'] == 200:
         # API 키를 세션에 저장 (계정 선택 후 캐릭터 조회할 때 사용)
         session['api_key'] = api_key
+        session.modified = True  # 세션을 명시적으로 저장하도록 설정
         
         account_data = result['result_data']
         accounts = get_account_list(account_data)
@@ -90,7 +93,8 @@ def _handle_account_list_post():
             accounts=accounts,
             first_characters=first_characters,
             account_pairs=account_pairs,
-            account_count=len(accounts)
+            account_count=len(accounts),
+            api_key=api_key  # 돌아가기 링크에서 api_key 전달
         )
     else:
         error_msg = f"{result['result_message']}: {result['result_fail_reason']}"
