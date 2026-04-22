@@ -17,20 +17,17 @@
     {% endif %}
   {% endwith %}
 </head>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <script>
-
-
-  const account_list = '{{account_list}}'
+  const api_key = '{{api_key}}'
 </script>
 <body>
   <div class="login-container">
     <div class="login-box">
       <img src="https://style-finder.nexon.com/anims/anim-1-9.png" alt="MapleStory" class="login-image">
       <h1>Find My Maple</h1>
-      <p class="subtitle">총 <b>{{account_count}}</b>개의 계정을 찾았습니다.</p>
+      <p class="subtitle">총 <b></b>개의 계정을 찾았습니다.</p>
       <div class="form-group">
-        <p>{{account_list}}</p>
-        <p>{{account_first_character}}</p>
         <label for="api_key">API 키</label>
         <input 
           type="text" 
