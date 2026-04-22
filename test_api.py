@@ -98,6 +98,8 @@ if result['result_code'] == 200:
             print(f"   - 레벨: {char_data.get('character_level', 'N/A')}")
             print(f"   - 월드: {char_data.get('world_name', 'N/A')}")
             print(f"   - 경험치: {format(char_data.get('character_exp', 'N/A'), ',')}")
+            print(f"   - 경험치(%): {char_data.get('character_exp_rate', 'N/A')}%")
+            print(f"   - 캐릭터 이미지 URL: {char_data.get('character_image', 'N/A')}")
         else:
             print(f"첫 캐릭터 기본 정보 조회 실패")
             print(f"   - 오류: {char['result_message']}")
