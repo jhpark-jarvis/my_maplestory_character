@@ -9,7 +9,8 @@ from maple_app.services.nexon_api_service import (
     api_key_check,
     get_account_list,
     get_account_first_character,
-    get_character_list
+    get_character_list,
+    get_character_basic
 )
 
 # 사용자가 제공한 API 키
@@ -81,6 +82,26 @@ if result['result_code'] == 200:
             print(f"캐릭터 목록 조회 실패")
             print(f"   - 오류: {char_result['result_message']}")
             print(f"   - 상세: {char_result['result_fail_reason']}")
+            
+    # 첫 캐릭터 기본 정보 조회
+    if character_list:
+        print("\n[5] 첫 캐릭터 기본 정보 조회 테스트")
+        print("-" * 80)
+        first_character = character_list[0]['ocid']
+        char = get_character_basic(first_character, TEST_API_KEY)
+        
+        if char['result_code'] == 200:
+            char_data = char['result_data']
+            print(f"첫 캐릭터 기본 정보 조회 성공")
+            print(f"   - 이름: {char_data.get('character_name', 'N/A')}")
+            print(f"   - 직업: {char_data.get('character_class', 'N/A')}")
+            print(f"   - 레벨: {char_data.get('character_level', 'N/A')}")
+            print(f"   - 월드: {char_data.get('world_name', 'N/A')}")
+            print(f"   - 경험치: {format(char_data.get('character_exp', 'N/A'), ',')}")
+        else:
+            print(f"첫 캐릭터 기본 정보 조회 실패")
+            print(f"   - 오류: {char['result_message']}")
+            print(f"   - 상세: {char['result_fail_reason']}")
     
     print("\n" + "="*80)
     print("모든 테스트 완료")
