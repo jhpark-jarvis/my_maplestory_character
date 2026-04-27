@@ -2,7 +2,7 @@
 
 Nexon Open API를 이용하여 내 메이플스토리 계정의 모든 캐릭터 정보를 한눈에 볼 수 있는 Flask 기반 웹 애플리케이션입니다.
 
-## 🚀 주요 기능
+## 주요 기능
 
 - API 키 검증 - NEXON Open API 키 검증 및 계정 정보 조회
 - 계정 목록 조회 - 모든 계정 및 첫 캐릭터 정보 표시
@@ -10,9 +10,9 @@ Nexon Open API를 이용하여 내 메이플스토리 계정의 모든 캐릭터
 - 캐릭터 상세 정보 - 직업, 레벨, 경험치, 월드, 생성일 등 표시
 - 세션 관리 - API 키 세션을 통한 안전한 정보 전달
 
-## 📋 프로젝트 구조
+## 프로젝트 구조
 
-```
+```bash
 my_maplestory_character/
 ├── app.py                          # 앱 진입점 (설정 및 실행)
 ├── config.py                       # 환경 설정 (SECRET_KEY 등)
@@ -33,7 +33,8 @@ my_maplestory_character/
 │   │       ├── get_account_list()       # 계정 목록 추출
 │   │       ├── get_account_first_character() # 첫 캐릭터 추출
 │   │       ├── get_character_list()     # 캐릭터 목록 조회
-│   │       └── get_character_detail()   # 캐릭터 상세 정보 조회
+│   │       ├── get_character_detail()   # 캐릭터 상세 정보 조회
+│   │       └── get_character_basic()   # 캐릭터 기본 정보 조회
 │   │
 │   ├── routes/                     # Flask Blueprint 라우터
 │   │   ├── __init__.py             # Blueprint 등록 함수
